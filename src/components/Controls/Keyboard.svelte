@@ -3,7 +3,11 @@
 	import { cursor } from '@sudoku/stores/cursor';
 	import { notes } from '@sudoku/stores/notes';
 	import { candidates } from '@sudoku/stores/candidates';
+<<<<<<< HEAD
 	import { getGameInstance, updateGridFromGame } from '../../domain/index.js';
+=======
+
+>>>>>>> 0fd227b0b30349f244140d23acea697576b92587
 	// TODO: Improve keyboardDisabled
 	import { keyboardDisabled } from '@sudoku/stores/keyboard';
 
@@ -21,6 +25,7 @@
 					candidates.clear($cursor);
 				}
 
+<<<<<<< HEAD
 				const game = getGameInstance($userGrid);
 				
 				if (game) {
@@ -29,6 +34,9 @@
 				} else {
 					userGrid.set($cursor, num);
 				}
+=======
+				userGrid.set($cursor, num);
+>>>>>>> 0fd227b0b30349f244140d23acea697576b92587
 			}
 		}
 	}

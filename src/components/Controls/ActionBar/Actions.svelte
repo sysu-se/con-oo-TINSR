@@ -8,9 +8,12 @@
 	import { keyboardDisabled } from '@sudoku/stores/keyboard';
 	import { gamePaused } from '@sudoku/stores/game';
 
+<<<<<<< HEAD
 	// 引入领域对象
 	import { getGameInstance, updateGridFromGame } from '../../../domain/index.js';
 
+=======
+>>>>>>> 0fd227b0b30349f244140d23acea697576b92587
 	$: hintsAvailable = $hints > 0;
 
 	function handleHint() {
@@ -18,6 +21,7 @@
 			if ($candidates.hasOwnProperty($cursor.x + ',' + $cursor.y)) {
 				candidates.clear($cursor);
 			}
+<<<<<<< HEAD
 			userGrid.applyHint($cursor);
 		}
 	}
@@ -40,18 +44,32 @@
 			updateGridFromGame(userGrid); // 更新 UI
 		}
 	}
+=======
+
+			userGrid.applyHint($cursor);
+		}
+	}
+>>>>>>> 0fd227b0b30349f244140d23acea697576b92587
 </script>
 
 <div class="action-buttons space-x-3">
 
+<<<<<<< HEAD
 	<button class="btn btn-round" disabled={$gamePaused} title="Undo" on:click={handleUndo}>
+=======
+	<button class="btn btn-round" disabled={$gamePaused} title="Undo">
+>>>>>>> 0fd227b0b30349f244140d23acea697576b92587
 		<svg class="icon-outline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
 		</svg>
 	</button>
 
+<<<<<<< HEAD
 	<!--绑定 handleRedo 事件 -->
 	<button class="btn btn-round" disabled={$gamePaused} title="Redo" on:click={handleRedo}>
+=======
+	<button class="btn btn-round" disabled={$gamePaused} title="Redo">
+>>>>>>> 0fd227b0b30349f244140d23acea697576b92587
 		<svg class="icon-outline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 10h-10a8 8 90 00-8 8v2M21 10l-6 6m6-6l-6-6" />
 		</svg>
