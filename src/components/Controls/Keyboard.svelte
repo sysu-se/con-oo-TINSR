@@ -3,13 +3,9 @@
 	import { cursor } from '@sudoku/stores/cursor';
 	import { notes } from '@sudoku/stores/notes';
 	import { candidates } from '@sudoku/stores/candidates';
-<<<<<<< HEAD
-	import { getGameInstance, updateGridFromGame } from '../../domain/index.js';
-=======
-
->>>>>>> 0fd227b0b30349f244140d23acea697576b92587
-	// TODO: Improve keyboardDisabled
 	import { keyboardDisabled } from '@sudoku/stores/keyboard';
+
+	import { gameStore } from '../../store/gameStore.js';
 
 	function handleKeyButton(num) {
 		if (!$keyboardDisabled) {
@@ -19,65 +15,26 @@
 				} else {
 					candidates.add($cursor, num);
 				}
-				userGrid.set($cursor, 0);
+				userGrid.set($cursor, 0); // 如果你的项目还保留了 userGrid 的部分依赖，可以暂留这行，但它不再是核心状态
 			} else {
 				if ($candidates.hasOwnProperty($cursor.x + ',' + $cursor.y)) {
 					candidates.clear($cursor);
 				}
 
-<<<<<<< HEAD
-				const game = getGameInstance($userGrid);
-				
-				if (game) {
-					game.guess({ row: $cursor.y, col: $cursor.x, value: num });
-					updateGridFromGame(userGrid);
-				} else {
-					userGrid.set($cursor, num);
-				}
-=======
-				userGrid.set($cursor, num);
->>>>>>> 0fd227b0b30349f244140d23acea697576b92587
+				// 【重点 5】UI 将玩家的输入指令毫无保留地抛给领域对象！不在这里计算！
+				gameStore.guess($cursor.y, $cursor.x, num); 
 			}
 		}
 	}
 
+	// 下面的 handleKey 键盘事件分发逻辑保持你的原样...
 	function handleKey(e) {
 		switch (e.key || e.keyCode) {
-			case 'ArrowUp':
-			case 38:
-			case 'w':
-			case 87:
-				cursor.move(0, -1);
-				break;
-
-			case 'ArrowDown':
-			case 40:
-			case 's':
-			case 83:
-				cursor.move(0, 1);
-				break;
-
-			case 'ArrowLeft':
-			case 37:
-			case 'a':
-			case 65:
-				cursor.move(-1);
-				break;
-
-			case 'ArrowRight':
-			case 39:
-			case 'd':
-			case 68:
-				cursor.move(1);
-				break;
-
-			case 'Backspace':
-			case 8:
-			case 'Delete':
-			case 46:
-				handleKeyButton(0);
-				break;
-
+			case 'ArrowUp': case 38: case 'w': case 87: cursor.move(0, -1); break;
+			case 'ArrowDown': case 40: case 's': case 83: cursor.move(0, 1); break;
+			case 'ArrowLeft': case 37: case 'a': case 65: cursor.move(-1); break;
+			case 'ArrowRight': case 39: case 'd': case 68: cursor.move(1); break;
+			case 'Backspace': case 8: case 'Delete': case 46: handleKeyButton(0); break;
 			default:
 				if (e.key && e.key * 1 >= 0 && e.key * 1 < 10) {
 					handleKeyButton(e.key * 1);
@@ -89,10 +46,9 @@
 	}
 </script>
 
-<svelte:window on:keydown={handleKey} /><!--on:beforeunload|preventDefault={e => e.returnValue = ''} />-->
+<svelte:window on:keydown={handleKey} />
 
 <div class="keyboard-grid">
-
 	{#each Array(10) as _, keyNum}
 		{#if keyNum === 9}
 			<button class="btn btn-key" disabled={$keyboardDisabled} title="Erase Field" on:click={() => handleKeyButton(0)}>
@@ -106,16 +62,9 @@
 			</button>
 		{/if}
 	{/each}
-
 </div>
 
 <style>
-	.keyboard-grid {
-		@apply grid grid-rows-2 grid-cols-5 gap-3;
-	}
-
-
-	.btn-key {
-		@apply py-4 px-0;
-	}
+	.keyboard-grid { @apply grid grid-rows-2 grid-cols-5 gap-3; }
+	.btn-key { @apply py-4 px-0; }
 </style>

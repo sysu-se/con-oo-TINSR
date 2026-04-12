@@ -8,7 +8,8 @@
 	import Controls from './components/Controls/index.svelte';
 	import Header from './components/Header/index.svelte';
 	import Modal from './components/Modal/index.svelte';
-
+	import { grid } from '@sudoku/stores/grid';
+	import { gameStore } from './store/gameStore.js';
 	gameWon.subscribe(won => {
 		if (won) {
 			game.pause();
@@ -30,6 +31,12 @@
 
 		modal.show('welcome', { onHide: game.resume, sencode });
 	});
+
+	$: if ($grid && $grid.length === 9) {
+    // 1. 获取底层生成的题目
+    const puzzleData = JSON.parse(JSON.stringify($grid));
+    // 2. 调用我们在阶段二写的初始化接口
+    gameStore.initNewGame(puzzleData);}
 </script>
 
 <!-- Timer, Menu, etc. -->

@@ -31,6 +31,29 @@ class Sudoku {
     toString() {
         return this.grid.map(row => row.join(' ')).join('\n');
     }
+
+    isConflict(row, col) {
+        const val = Number(this.grid[row][col]); // 强制转数字
+        if (val === 0 || isNaN(val)) return false;
+
+        for (let i = 0; i < 9; i++) {
+            // 检查行：确保比较的两端都是数字
+            if (i !== col && Number(this.grid[row][i]) === val) return true;
+            // 检查列
+            if (i !== row && Number(this.grid[i][col]) === val) return true;
+        }
+
+        // 检查九宫格
+        const startRow = Math.floor(row / 3) * 3;
+        const startCol = Math.floor(col / 3) * 3;
+        for (let i = startRow; i < startRow + 3; i++) {
+            for (let j = startCol; j < startCol + 3; j++) {
+                if ((i !== row || j !== col) && Number(this.grid[i][j]) === val) return true;
+            }
+        }
+        return false;
+    }
+
 }
 
 class Game {
